@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Movie Download Page</title>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #f39c12;
+    }
+    .movie-card {
+      max-width: 800px;
+      background: #1e1e1e;
+      margin: 20px auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      transition: 0.3s;
+    }
+    .movie-card:hover {
+      transform: scale(1.02);
+    }
+    .poster {
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+    }
+    .movie-info {
+      display: none;
+      padding: 20px;
+    }
+    .movie-info h2 {
+      margin-top: 0;
+      color: #00ffcc;
+    }
+    .movie-info p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .download-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 25px;
+      background-color: #f39c12;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .download-btn:hover {
+      background-color: #d35400;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎬 Movie Download Zone</h1>
+
+  <div class="movie-card">
+    <img class="poster" src="movie-poster.jpg" alt="Movie Poster" onclick="toggleInfo()">
+    
+    <div class="movie-info" id="movieDetails">
+      <h2>Movie Title: Iron Man (2008)</h2>
+      <p><strong>⭐ Rating:</strong> 7.9/10</p>
+      <p><strong>📅 Release:</strong> May 2, 2008</p>
+      <p><strong>🕐 Duration:</strong> 2h 6min</p>
+      <p><strong>📄 Description:</strong> After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.</p>
+      <p><strong>📦 File Size:</strong> 1.2 GB</p>
+      
+      <a class="download-btn" href="ironman.mp4" download>⬇ Download Movie</a>
+    </div>
+  </div>
+
+  <script>
+    function toggleInfo() {
+      var info = document.getElementById("movieDetails");
+      info.style.display = info.style.display === "block" ? "none" : "block";
+    }
+  </script>
+
+</body>
+</html>
