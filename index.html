@@ -2,92 +2,186 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Movie Download Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎬 Movie Theater - Best Movies Daily</title>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: #0f0f0f;
-      color: #ffffff;
+      background-color: #121212;
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
+      color: #e0e0e0;
+      padding: 40px;
     }
     h1 {
       text-align: center;
       color: #f39c12;
+      margin-bottom: 10px;
     }
-    .movie-card {
-      max-width: 800px;
+    .subtitle {
+      text-align: center;
+      color: #aaaaaa;
+      margin-bottom: 40px;
+      font-size: 16px;
+      font-style: italic;
+    }
+    .search-box {
+      max-width: 500px;
+      margin: 0 auto 40px;
+      display: flex;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px 0 0 6px;
       background: #1e1e1e;
-      margin: 20px auto;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-      transition: 0.3s;
+      color: #fff;
     }
-    .movie-card:hover {
-      transform: scale(1.02);
-    }
-    .poster {
-      width: 100%;
-      height: auto;
+    .search-box button {
+      padding: 12px 20px;
+      border: none;
+      background-color: #f39c12;
+      color: black;
+      font-weight: bold;
       cursor: pointer;
+      border-radius: 0 6px 6px 0;
+    }
+    .movie-list {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .movie-poster {
+      width: 100%;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .movie-poster:hover {
+      transform: scale(1.05);
     }
     .movie-info {
       display: none;
+      background: #1e1e1e;
       padding: 20px;
+      border-radius: 12px;
+      animation: fadeIn 0.5s ease-in-out;
     }
     .movie-info h2 {
-      margin-top: 0;
-      color: #00ffcc;
+      color: #00ffd5;
     }
     .movie-info p {
-      font-size: 15px;
-      line-height: 1.6;
+      margin: 10px 0;
     }
     .download-btn {
       display: inline-block;
-      margin-top: 15px;
-      padding: 12px 25px;
-      background-color: #f39c12;
-      color: #000;
-      border: none;
-      border-radius: 8px;
+      padding: 12px 24px;
+      background: #f39c12;
+      color: black;
       font-weight: bold;
+      border-radius: 8px;
       text-decoration: none;
-      transition: 0.3s;
+      margin-top: 15px;
     }
-    .download-btn:hover {
-      background-color: #d35400;
-      color: white;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .movie-list {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>🎬 Movie Download Zone</h1>
+  <h1>🎥 Movie Theater</h1>
+  <p class="subtitle">Only 3 high-quality English movies are updated daily on this site.</p>
 
-  <div class="movie-card">
-    <img class="poster" src="movie-poster.jpg" alt="Movie Poster" onclick="toggleInfo()">
-    
-    <div class="movie-info" id="movieDetails">
-      <h2>Movie Title: Iron Man (2008)</h2>
-      <p><strong>⭐ Rating:</strong> 7.9/10</p>
-      <p><strong>📅 Release:</strong> May 2, 2008</p>
-      <p><strong>🕐 Duration:</strong> 2h 6min</p>
-      <p><strong>📄 Description:</strong> After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.</p>
-      <p><strong>📦 File Size:</strong> 1.2 GB</p>
-      
-      <a class="download-btn" href="ironman.mp4" download>⬇ Download Movie</a>
-    </div>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search movie by name...">
+    <button onclick="searchMovie()">Search</button>
   </div>
 
-  <script>
-    function toggleInfo() {
-      var info = document.getElementById("movieDetails");
-      info.style.display = info.style.display === "block" ? "none" : "block";
-    }
-  </script>
+  <div id="moviesContainer"></div>
 
+  <script>
+    const movies = [
+      {
+        title: "Iron Man",
+        year: "2008",
+        rating: "7.9",
+        duration: "2h 6min",
+        description: "Tony Stark builds a high-tech suit to fight evil after being captured in Afghanistan.",
+        size: "1.2 GB",
+        poster: "https://i.ibb.co/THvj7WF/ironman.jpg",
+        downloadLink: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_1"
+      },
+      {
+        title: "Avengers: Endgame",
+        year: "2019",
+        rating: "8.4",
+        duration: "3h 1min",
+        description: "The Avengers assemble to reverse Thanos' actions and restore balance.",
+        size: "2.8 GB",
+        poster: "https://i.ibb.co/GFrfpgv/endgame.jpg",
+        downloadLink: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_2"
+      },
+      {
+        title: "Inception",
+        year: "2010",
+        rating: "8.8",
+        duration: "2h 28min",
+        description: "A skilled thief uses dream-sharing technology to perform corporate espionage.",
+        size: "2.0 GB",
+        poster: "https://i.ibb.co/qjyNyt9/inception.jpg",
+        downloadLink: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_3"
+      }
+    ];
+
+    function renderMovies(filter = "") {
+      const container = document.getElementById("moviesContainer");
+      container.innerHTML = "";
+      const filtered = movies.filter(movie =>
+        movie.title.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p style='text-align:center;'>No movies found.</p>`;
+        return;
+      }
+
+      filtered.forEach((movie, index) => {
+        container.innerHTML += `
+          <div class="movie-list">
+            <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onclick="toggleDetails(${index})">
+            <div class="movie-info" id="movie-${index}">
+              <h2>${movie.title} (${movie.year})</h2>
+              <p><strong>⭐ Rating:</strong> ${movie.rating}</p>
+              <p><strong>🕐 Duration:</strong> ${movie.duration}</p>
+              <p><strong>📦 Size:</strong> ${movie.size}</p>
+              <p><strong>📖 Description:</strong> ${movie.description}</p>
+              <a href="${movie.downloadLink}" target="_blank" class="download-btn">⬇ Download Movie</a>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function toggleDetails(index) {
+      const element = document.getElementById(`movie-${index}`);
+      element.style.display = element.style.display === "block" ? "none" : "block";
+    }
+
+    function searchMovie() {
+      const input = document.getElementById("searchInput").value;
+      renderMovies(input);
+    }
+
+    renderMovies();
+  </script>
 </body>
 </html>
